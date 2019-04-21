@@ -20,6 +20,10 @@ export const App = () => {
     setBoard(board.concat(arr));
   };
 
+  const clearBoard = params => {
+    setBoard([]);
+  };
+
   return (
     <div className="App">
       <h1>Reactive Pixel Board</h1>
@@ -27,7 +31,9 @@ export const App = () => {
         <button id="add-row" onClick={addCells}>
           Add a row
         </button>
-        <button id="clear">Clear</button>
+        <button id="clear" onClick={clearBoard}>
+          Clear
+        </button>
         <button id="paint-all">Paint All</button>
         <button id="paint-remaining">Paint Remaining</button>
         <select onChange={e => setColorVal(e.target.value)} value={colorVal}>
