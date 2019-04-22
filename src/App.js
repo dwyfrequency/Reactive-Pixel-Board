@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 export const App = () => {
@@ -6,16 +6,16 @@ export const App = () => {
   const [colVal, setColVal] = useState(20);
   const [colorVal, setColorVal] = useState('red');
   const [board, setBoard] = useState([]);
+  const [styles, setStyles] = useState({
+    backgroundColor: 'purple',
+    width: 25,
+    height: 25,
+  });
 
   // Functions
   const addCells = () => {
-    const arr = Array.from({ length: rowVal }, (_, rowIdx) =>
-      Array.from({ length: colVal }, (_, colIdx) => (
-        <td
-          key={`row#${rowIdx}- col#${colIdx}`}
-          style={{ backgroundColor: 'purple', width: 100, height: 100 }}
-        />
-      ))
+    const arr = Array.from({ length: rowVal }, () =>
+      Array.from({ length: colVal }, () => {})
     );
     setBoard(board.concat(arr));
   };
@@ -24,8 +24,13 @@ export const App = () => {
     setBoard([]);
   };
 
+  const paintAllCells = () => {
+    setStyles({ ...styles, backgroundColor: colorVal });
+  };
+
   return (
     <div className="App">
+      {console.log('rending')}
       <h1>Reactive Pixel Board</h1>
       <div>
         <button id="add-row" onClick={addCells}>
@@ -34,7 +39,9 @@ export const App = () => {
         <button id="clear" onClick={clearBoard}>
           Clear
         </button>
-        <button id="paint-all">Paint All</button>
+        <button id="paint-all" onClick={paintAllCells}>
+          Paint All
+        </button>
         <button id="paint-remaining">Paint Remaining</button>
         <select onChange={e => setColorVal(e.target.value)} value={colorVal}>
           <option value="red">Red</option>
@@ -59,8 +66,12 @@ export const App = () => {
       </div>
       <table>
         <tbody>
-          {board.map((item, rowIdx) => (
-            <tr key={`row#${rowIdx}`}>{item}</tr>
+          {board.map((row, rowIdx) => (
+            <tr key={`row#${rowIdx}`}>
+              {row.map((_, colIdx) => (
+                <td key={`row#${rowIdx}- col#${colIdx}`} style={styles} />
+              ))}
+            </tr>
           ))}
         </tbody>
       </table>
