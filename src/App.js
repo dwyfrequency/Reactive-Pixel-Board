@@ -7,7 +7,7 @@ export const App = () => {
   const [colorVal, setColorVal] = useState('red');
   const [board, setBoard] = useState([]);
   const [styles, setStyles] = useState({
-    backgroundColor: 'purple',
+    backgroundColor: 'gray',
     width: 25,
     height: 25,
   });
@@ -20,17 +20,20 @@ export const App = () => {
     setBoard(board.concat(arr));
   };
 
-  const clearBoard = params => {
+  const clearBoard = () => {
     setBoard([]);
   };
+
+  /* tons of issues with paintallcells and paintremaining */
 
   const paintAllCells = () => {
     setStyles({ ...styles, backgroundColor: colorVal });
   };
 
+  const paintRemaining = () => {};
+
   return (
     <div className="App">
-      {console.log('rending')}
       <h1>Reactive Pixel Board</h1>
       <div>
         <button id="add-row" onClick={addCells}>
@@ -42,12 +45,13 @@ export const App = () => {
         <button id="paint-all" onClick={paintAllCells}>
           Paint All
         </button>
-        <button id="paint-remaining">Paint Remaining</button>
+        <button id="paint-remaining" onClick={paintRemaining}>
+          Paint Remaining
+        </button>
         <select onChange={e => setColorVal(e.target.value)} value={colorVal}>
           <option value="red">Red</option>
           <option value="green">Green</option>
           <option value="blue">Blue</option>
-          <option value="mango">Mango</option>
         </select>
         <input
           type="text"
@@ -65,7 +69,14 @@ export const App = () => {
         />
       </div>
       <table>
-        <tbody>
+        <tbody
+          onClick={e => {
+            // ugh i feel like it's bad practice to reach out directly to the dom
+            const elementBc = e.target.style.backgroundColor;
+            e.target.style.backgroundColor =
+              elementBc === colorVal ? 'gray' : colorVal;
+          }}
+        >
           {board.map((row, rowIdx) => (
             <tr key={`row#${rowIdx}`}>
               {row.map((_, colIdx) => (
