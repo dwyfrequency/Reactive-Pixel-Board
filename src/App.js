@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Grid } from './Grid';
+import { Button } from './Button';
+import { SelectBtn } from './SelectBtn';
 
 export const App = () => {
   const [rowVal, setRowVal] = useState(1);
   const [colVal, setColVal] = useState(20);
   const [colorVal, setColorVal] = useState('red');
   const [board, setBoard] = useState([]);
-  const [styles, setStyles] = useState({
-    backgroundColor: 'gray',
-    width: 25,
-    height: 25,
-  });
 
   // Functions
-  const addCells = () => {
+  const addRow = () => {
     const arr = Array.from({ length: rowVal }, () =>
       Array.from({ length: colVal }, () => {})
     );
@@ -24,11 +22,14 @@ export const App = () => {
     setBoard([]);
   };
 
+  const toggleCellColor = e => {
+    const elementBc = e.target.style.backgroundColor;
+    e.target.style.backgroundColor = elementBc === colorVal ? 'gray' : colorVal;
+  };
+
   /* tons of issues with paintallcells and paintremaining */
 
-  const paintAllCells = () => {
-    setStyles({ ...styles, backgroundColor: colorVal });
-  };
+  const paintAllCells = () => {};
 
   const paintRemaining = () => {};
 
@@ -36,23 +37,19 @@ export const App = () => {
     <div className="App">
       <h1>Reactive Pixel Board</h1>
       <div>
-        <button id="add-row" onClick={addCells}>
+        <Button id="add-row" callback={addRow}>
           Add a row
-        </button>
-        <button id="clear" onClick={clearBoard}>
+        </Button>
+        <Button id="clear" callback={clearBoard}>
           Clear
-        </button>
-        <button id="paint-all" onClick={paintAllCells}>
+        </Button>
+        <Button id="paint-all" callback={paintAllCells}>
           Paint All
-        </button>
-        <button id="paint-remaining" onClick={paintRemaining}>
+        </Button>
+        <Button id="paint-remaining" onClick={paintRemaining}>
           Paint Remaining
-        </button>
-        <select onChange={e => setColorVal(e.target.value)} value={colorVal}>
-          <option value="red">Red</option>
-          <option value="green">Green</option>
-          <option value="blue">Blue</option>
-        </select>
+        </Button>
+        <SelectBtn colorVal={colorVal} setColorVal={setColorVal} />
         <input
           type="text"
           name="row"
@@ -68,24 +65,11 @@ export const App = () => {
           onChange={e => setColVal(e.target.value)}
         />
       </div>
-      <table>
-        <tbody
-          onClick={e => {
-            // ugh i feel like it's bad practice to reach out directly to the dom
-            const elementBc = e.target.style.backgroundColor;
-            e.target.style.backgroundColor =
-              elementBc === colorVal ? 'gray' : colorVal;
-          }}
-        >
-          {board.map((row, rowIdx) => (
-            <tr key={`row#${rowIdx}`}>
-              {row.map((_, colIdx) => (
-                <td key={`row#${rowIdx}- col#${colIdx}`} style={styles} />
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Grid
+        board={board}
+        colorVal={colorVal}
+        toggleCellColor={toggleCellColor}
+      />
     </div>
   );
 };
