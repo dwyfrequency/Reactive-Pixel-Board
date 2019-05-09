@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import { Grid } from './Grid';
-import { Button } from './Button';
-import { SelectBtn } from './SelectBtn';
+import './styles/App.css';
+import { Grid } from './components/Grid';
+import { Button } from './components/Button';
+import { SelectBtn } from './components/SelectBtn';
 
 export const App = () => {
   const [rowVal, setRowVal] = useState(1);

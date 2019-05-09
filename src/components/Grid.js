@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Grid.css';
+import '../styles/Grid.css';
 import { Cell } from './Cell';
 
 export const Grid = ({ board, colorVal, toggleCellColor }) => {
