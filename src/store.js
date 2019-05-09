@@ -11,8 +11,8 @@ const ADD_ROW = 'ADD_ROW';
 const COLORIZE = 'COLORIZE';
 
 // Action creators
-const addRow = () => ({ type: ADD_ROW });
-const colorize = () => ({ type: COLORIZE });
+export const addRow = () => ({ type: ADD_ROW });
+export const colorize = () => ({ type: COLORIZE });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -26,3 +26,5 @@ const reducer = (state = initialState, action) => {
 };
 
 const store = createStore(reducer, applyMiddleware(loggerMiddleware));
+
+export default store;
