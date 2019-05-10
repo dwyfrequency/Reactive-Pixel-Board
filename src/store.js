@@ -6,6 +6,10 @@ const initialState = {
   grid: [],
 };
 
+const addGridRow = (n = 20) => {
+  return Array.from({ length: n }, () => '');
+};
+
 // Actions
 const ADD_ROW = 'ADD_ROW';
 const COLORIZE = 'COLORIZE';
@@ -17,6 +21,10 @@ export const colorize = () => ({ type: COLORIZE });
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ROW:
+      return {
+        ...state,
+        grid: state.grid.concat(addGridRow(20)),
+      };
       break;
     case COLORIZE:
       break;
